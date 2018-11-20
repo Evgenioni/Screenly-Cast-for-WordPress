@@ -32,7 +32,9 @@ defined('ABSPATH') or die("No script kiddies please!");
     <body <?php body_class()?>>
 
         <?php
-        $logo = get_option('screenly_options_logo');
+        $data = get_option( 'template' );
+        $logo = stripslashes($data['url']);
+        echo '<p>'.$data.'</p>'
         if (!empty($logo)) {
             echo '<img src="'.$logo.'" id="brand-logo" width="314" height="98">';
         }

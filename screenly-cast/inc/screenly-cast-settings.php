@@ -59,7 +59,18 @@ function srlyOptionsPage()
  */
 function srlySettingsInit()
 {
-    $data = get_option( 'srly_settings' );
+
+    $option_values = get_option( 'srly_settings' );
+
+    $default_values = array (
+        'logo_url'              => '',
+        'logo_position'         => 'bottom-left',
+        'web_font'              => '',
+        'font_header_weight'    => '600',
+        'font_header_size'      => '4.5vw'
+    );
+
+    $data = shortcode_atts( $default_values, $option_values );
 
     register_setting(
         'srly_settings_group',
@@ -68,31 +79,115 @@ function srlySettingsInit()
 
     add_settings_section(
         'section_logo',
-        __('Settings', SRLY_THEME),
+        'Logo Settings',
         'srlyRenderSectionLogo',
         'screenly'
     );
 
     add_settings_field(
-        'section_logo_field_path',
-        __('Brand logo', SRLY_THEME),
-        'srlyRenderSectionLogoFieldUrl',
+        'section_logo_url',
+        'Brand logo',
+        'srlyRenderSectionLogoUrl',
         'screenly',
         'section_logo',
         array (
-            'label_for'   => 'screenly_options_logo',
-            'name'        => 'url',
-            'value'       => esc_attr( $data['url'] ),
+            'label_for'   => 'screenly_logo_url',
+            'name'        => 'logo_url',
+            'value'       => esc_attr( $data['logo_url'] ),
             'option_name' => 'srly_settings',
         )
     );
+
+    add_settings_field(
+        'section_logo_position',
+        'Logo position',
+        'srlyRenderSectionLogoPosition',
+        'screenly',
+        'section_logo',
+        array (
+            'label_for'   => 'section_logo_position',
+            'name'        => 'logo_position',
+            'value'       => esc_attr( $data['logo_position'] ),
+            'options'     => array (
+                'top-left'     => 'Top Left',
+                'top-center'   => 'Top Center',
+                'top-right'    => 'Top Right',
+                'bottom-left'  => 'Bottom Left',
+                'bottom-right' => 'Bottom Right'
+            ),
+            'option_name' => 'srly_settings',
+        )
+    );
+
+    add_settings_section(
+        'section_font',
+        'Font Settings',
+        'srlyRenderSectionFont',
+        'screenly'
+    );
+
+    add_settings_field(
+        'section_font_url',
+        'Webfont url',
+        'srlyRenderSectionFontUrl',
+        'screenly',
+        'section_font',
+        array (
+            'label_for'   => 'screenly_font_url',
+            'name'        => 'font_url',
+            'value'       => esc_attr( $data['font_url'] ),
+            'option_name' => 'srly_settings',
+        )
+    );
+
+    add_settings_field(
+        'section_font_header_weight',
+        'Header\'s font weight',
+        'srlyRenderSectionFontHWeight',
+        'screenly',
+        'section_font',
+        array (
+            'label_for'   => 'screenly_font_header_weight',
+            'name'        => 'font_header_weight',
+            'value'       => esc_attr( $data['font_header_weight'] ),
+            'options'     => array (
+                '100'       => 'Thin',
+                '400'       => 'Normal',
+                '600'       => 'Bold'
+            ),
+            'option_name' => 'srly_settings',
+        )
+    );
+
+    add_settings_field(
+        'section_font_header_size',
+        'Header\'s font size',
+        'srlyRenderSectionFontHSize',
+        'screenly',
+        'section_font',
+        array (
+            'label_for'   => 'screenly_font_header_size',
+            'name'        => 'font_header_size',
+            'value'       => esc_attr( $data['font_header_size'] ),
+            'options'     => array (
+                '2.5vw'     => 'X-Small',
+                '3.5vw'     => 'Small',
+                '4.5vw'     => 'Medium',
+                '5.5vw'     => 'Large',
+                '6,5vw'     => 'X-Large'
+            ),
+            'option_name' => 'srly_settings',
+        )
+    );
+
 }
 
 function srlyRenderSectionLogo()
 {
-    print '<p>Use this page to change your settings.</p>';
+    print '<p>The following options control the logo. You can select the URL of picture and set the position of the logo on the screen.</p>';
 }
-function srlyRenderSectionLogoFieldUrl( $args )
+
+function srlyRenderSectionLogoUrl( $args )
 {
     printf(
         '<input type="url" id="%1$s" name="%4$s[%2$s]" class="large-text" value="%3$s">
@@ -103,6 +198,82 @@ function srlyRenderSectionLogoFieldUrl( $args )
         $args['value'],
         $args['option_name']
     );
+}
+
+function srlyRenderSectionLogoPosition( $args )
+{
+    printf(
+        '<select name="%1$s[%2$s]" id="%3$s">',
+        $args['option_name'],
+        $args['name'],
+        $args['label_for']
+    );
+
+    foreach ( $args['options'] as $val => $title )
+        printf(
+            '<option value="%1$s" %2$s>%3$s</option>',
+            $val,
+            selected( $val, $args['value'], FALSE ),
+            $title
+        );
+
+    print '</select>';
+}
+
+function srlyRenderSectionFont()
+{
+    print '<p>Here you can configure the font settings for different elements of page.</p>';
+}
+
+function srlyRenderSectionFontUrl( $args )
+{
+    printf(
+        '<input type="url" id="%1$s" name="%4$s[%2$s]" class="large-text" value="%3$s">',
+        $args['label_for'],
+        $args['name'],
+        $args['value'],
+        $args['option_name']
+    );
+}
+
+function srlyRenderSectionFontHWeight( $args )
+{
+    printf(
+        '<select name="%1$s[%2$s]" id="%3$s">',
+        $args['option_name'],
+        $args['name'],
+        $args['label_for']
+    );
+
+    foreach ( $args['options'] as $val => $title )
+        printf(
+            '<option value="%1$s" %2$s>%3$s</option>',
+            $val,
+            selected( $val, $args['value'], FALSE ),
+            $title
+        );
+
+    print '</select>';
+}
+
+function srlyRenderSectionFontHSize( $args )
+{
+    printf(
+        '<select name="%1$s[%2$s]" id="%3$s">',
+        $args['option_name'],
+        $args['name'],
+        $args['label_for']
+    );
+
+    foreach ( $args['options'] as $val => $title )
+        printf(
+            '<option value="%1$s" %2$s>%3$s</option>',
+            $val,
+            selected( $val, $args['value'], FALSE ),
+            $title
+        );
+
+    print '</select>';
 }
 
 /**
