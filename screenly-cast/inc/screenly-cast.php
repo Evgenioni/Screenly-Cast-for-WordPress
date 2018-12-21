@@ -338,6 +338,23 @@ class ScreenlyCast
      */
     public static function pluginActivation()
     {
+        // Initial default values
+        global $wpdb;
+        $default_values = array (
+            'logo_url'              => '',
+            'logo_position'         => 'top-right',
+            'font_url'              => 'https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500',
+            'font_header_weight'    => '600',
+            'font_header_size'      => '4.5vw',
+            'font_header_color'     => '#fe4567',
+            'font_meta_weight'      => '400',
+            'font_meta_size'        => '4.5vw',
+            'font_meta_color'       => '#fe4567',
+            'font_content_weight'   => '400',
+            'font_content_size'     => '4.5vw',
+            'font_content_color'    => '#fe4567'
+        );
+        $wpdb->insert( $wpdb->options, array( 'option_name' => 'srly_settings',  'option_value' => serialize($default_values) ) );
         return true;
     }
 
@@ -353,6 +370,10 @@ class ScreenlyCast
      */
     public static function pluginDeactivation()
     {
+        global $wpdb;
+        $wpdb->delete( $wpdb->options, array( 'option_name' => 'srly_saved_theme',  ) );
+        $wpdb->delete( $wpdb->options, array( 'option_name' => 'srly_settings',  ) );
+        $wpdb->delete( $wpdb->options, array( 'option_name' => 'theme_mods_screenly-cast',  ) );
         self::_log('plugin deactivated');
         return true;
     }

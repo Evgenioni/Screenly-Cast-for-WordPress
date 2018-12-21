@@ -68,13 +68,13 @@ function srlyOptionsPage()
  */
 function srlySettingsInit()
 {
-
+/*
     $option_values = get_option( 'srly_settings' );
 
     $default_values = array (
         'logo_url'              => '',
         'logo_position'         => 'top-right',
-        'font_url'              => '',
+        'font_url'              => 'https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500',
         'font_header_weight'    => '600',
         'font_header_size'      => '4.5vw',
         'font_header_color'     => '#fe4567',
@@ -87,6 +87,9 @@ function srlySettingsInit()
     );
 
     $data = shortcode_atts( $default_values, $option_values );
+*/
+
+    $data = get_option( 'srly_settings' );
 
     register_setting(
         'srly_settings_group',
@@ -144,7 +147,7 @@ function srlySettingsInit()
 
     add_settings_field(
         'section_font_url',
-        'Webfont url',
+        'Google Web Font',
         'srlyRenderSectionFontUrl',
         'screenly',
         'section_font',
@@ -369,7 +372,9 @@ function srlyRenderSectionFontUrl( $args )
 {
     printf(
         '<input type="url" id="%1$s" name="%4$s[%2$s]" class="regular-text" value="%3$s" />
-        <input type="button" class="button srly_clear_url" value="&times" />',
+        <input type="button" class="button srly_clear_url" value="&times" />
+        <p class="description">Here you can add Google web fonts to your website. Specify the font family with the base URL.</p>
+        <p class="description">More information on a <a href="https://fonts.google.com/" target="_blank">Google Fonts API</a> page.</p>',
         $args['label_for'],
         $args['name'],
         $args['value'],
