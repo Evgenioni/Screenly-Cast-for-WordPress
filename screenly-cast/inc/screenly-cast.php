@@ -343,16 +343,14 @@ class ScreenlyCast
         $default_values = array (
             'logo_url'              => '',
             'logo_position'         => 'top-right',
-            'font_url'              => 'https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500',
-            'font_header_weight'    => '600',
+            'font_name'              => 'Work Sans',
+            'font_header_weight'    => '400',
             'font_header_size'      => '4.5vw',
-            'font_header_color'     => '#fe4567',
-            'font_meta_weight'      => '400',
-            'font_meta_size'        => '4.5vw',
-            'font_meta_color'       => '#fe4567',
-            'font_content_weight'   => '400',
-            'font_content_size'     => '4.5vw',
-            'font_content_color'    => '#fe4567'
+            'font_header_color'     => '#000000',
+            'font_meta_weight'      => '100',
+            'font_meta_size'        => '2.5vw',
+            'font_meta_color'       => '#9e9e9e',
+            'font_content_size'     => '3.5vw'
         );
         $wpdb->insert( $wpdb->options, array( 'option_name' => 'srly_settings',  'option_value' => serialize($default_values) ) );
         return true;

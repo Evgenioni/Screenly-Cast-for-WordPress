@@ -36,7 +36,7 @@ require_once 'header.php';
         </article>
 
     </section>
-    <?php endif; ?>
+    <?php endif; ?>    
 </main>
 
 <?php

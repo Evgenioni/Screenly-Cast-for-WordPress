@@ -68,27 +68,6 @@ function srlyOptionsPage()
  */
 function srlySettingsInit()
 {
-/*
-    $option_values = get_option( 'srly_settings' );
-
-    $default_values = array (
-        'logo_url'              => '',
-        'logo_position'         => 'top-right',
-        'font_url'              => 'https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500',
-        'font_header_weight'    => '600',
-        'font_header_size'      => '4.5vw',
-        'font_header_color'     => '#fe4567',
-        'font_meta_weight'      => '400',
-        'font_meta_size'        => '4.5vw',
-        'font_meta_color'       => '#fe4567',
-        'font_content_weight'   => '400',
-        'font_content_size'     => '4.5vw',
-        'font_content_color'    => '#fe4567'
-    );
-
-    $data = shortcode_atts( $default_values, $option_values );
-*/
-
     $data = get_option( 'srly_settings' );
 
     register_setting(
@@ -128,11 +107,10 @@ function srlySettingsInit()
             'name'        => 'logo_position',
             'value'       => esc_attr( $data['logo_position'] ),
             'options'     => array (
-                'top-left'     => 'Top Left',
-                'top-center'   => 'Top Center',
-                'top-right'    => 'Top Right',
-                'bottom-left'  => 'Bottom Left',
-                'bottom-right' => 'Bottom Right'
+                'top left'     => 'Top Left',
+                'top right'    => 'Top Right',
+                'bottom left'  => 'Bottom Left',
+                'bottom right' => 'Bottom Right'
             ),
             'option_name' => 'srly_settings',
         )
@@ -146,15 +124,15 @@ function srlySettingsInit()
     );
 
     add_settings_field(
-        'section_font_url',
+        'section_font_name',
         'Google Web Font',
-        'srlyRenderSectionFontUrl',
+        'srlyRenderSectionFontName',
         'screenly',
         'section_font',
         array (
-            'label_for'   => 'screenly_font_url',
-            'name'        => 'font_url',
-            'value'       => esc_attr( $data['font_url'] ),
+            'label_for'   => 'screenly_font_name',
+            'name'        => 'font_name',
+            'value'       => esc_attr( $data['font_name'] ),
             'option_name' => 'srly_settings',
         )
     );
@@ -189,11 +167,11 @@ function srlySettingsInit()
             'name'        => 'font_header_size',
             'value'       => esc_attr( $data['font_header_size'] ),
             'options'     => array (
-                '2.5vw'     => 'X-Small',
-                '3.5vw'     => 'Small',
-                '4.5vw'     => 'Medium',
-                '5.5vw'     => 'Large',
-                '6,5vw'     => 'X-Large'
+                '1.5vw'     => 'X-Small',
+                '2.5vw'     => 'Small',
+                '3.5vw'     => 'Medium',
+                '4.5vw'     => 'Large',
+                '5.5vw'     => 'X-Large'
             ),
             'option_name' => 'srly_settings',
         )
@@ -243,11 +221,11 @@ function srlySettingsInit()
             'name'        => 'font_meta_size',
             'value'       => esc_attr( $data['font_meta_size'] ),
             'options'     => array (
-                '2.5vw'     => 'X-Small',
-                '3.5vw'     => 'Small',
-                '4.5vw'     => 'Medium',
-                '5.5vw'     => 'Large',
-                '6,5vw'     => 'X-Large'
+                '1.5vw'     => 'X-Small',
+                '2.5vw'     => 'Small',
+                '3.5vw'     => 'Medium',
+                '4.5vw'     => 'Large',
+                '5.5vw'     => 'X-Large'
             ),
             'option_name' => 'srly_settings',
         )
@@ -268,25 +246,6 @@ function srlySettingsInit()
     );
 
     add_settings_field(
-        'section_font_content_weight',
-        'Content font weight',
-        'srlyRenderSectionFontContentWeight',
-        'screenly',
-        'section_font',
-        array (
-            'label_for'   => 'screenly_font_content_weight',
-            'name'        => 'font_content_weight',
-            'value'       => esc_attr( $data['font_content_weight'] ),
-            'options'     => array (
-                '100'       => 'Thin',
-                '400'       => 'Normal',
-                '600'       => 'Bold'
-            ),
-            'option_name' => 'srly_settings',
-        )
-    );
-
-    add_settings_field(
         'section_font_content_size',
         'Content font size',
         'srlyRenderSectionFontContentSize',
@@ -297,26 +256,12 @@ function srlySettingsInit()
             'name'        => 'font_content_size',
             'value'       => esc_attr( $data['font_content_size'] ),
             'options'     => array (
-                '2.5vw'     => 'X-Small',
-                '3.5vw'     => 'Small',
-                '4.5vw'     => 'Medium',
-                '5.5vw'     => 'Large',
-                '6,5vw'     => 'X-Large'
+                '1.5vw'     => 'X-Small',
+                '2.5vw'     => 'Small',
+                '3.5vw'     => 'Medium',
+                '4.5vw'     => 'Large',
+                '5.5vw'     => 'X-Large'
             ),
-            'option_name' => 'srly_settings',
-        )
-    );
-
-    add_settings_field(
-        'section_font_content_color',
-        'Content font color',
-        'srlyRenderSectionFontContentColor',
-        'screenly',
-        'section_font',
-        array (
-            'label_for'   => 'screenly_font_content_color',
-            'name'        => 'font_content_color',
-            'value'       => esc_attr( $data['font_content_color'] ),
             'option_name' => 'srly_settings',
         )
     );
@@ -333,7 +278,7 @@ function srlyRenderSectionLogoUrl( $args )
     printf(
         '<input type="url" id="%1$s" name="%4$s[%2$s]" class="regular-text srly-url" value="%3$s" />
          <input type="button" class="button srly-browse" value="Choose Image" />
-         <input type="button" class="button srly_clear_url" value="&times" />
+         <input type="button" class="button srly_clear" value="&times" />
          <p class="description">Please, select an image in the media library. We recommend using PNG with transparency.</p>
          <p class="srly-image-preview"><img style="max-width:98px;" src=""/></p>',
         $args['label_for'],
@@ -368,12 +313,12 @@ function srlyRenderSectionFont()
     print '<p>Here you can configure the font settings for different elements the page.</p>';
 }
 
-function srlyRenderSectionFontUrl( $args )
+function srlyRenderSectionFontName( $args )
 {
     printf(
-        '<input type="url" id="%1$s" name="%4$s[%2$s]" class="regular-text" value="%3$s" />
-        <input type="button" class="button srly_clear_url" value="&times" />
-        <p class="description">Here you can add Google web fonts to your website. Specify the font family with the base URL.</p>
+        '<input type="text" id="%1$s" name="%4$s[%2$s]" class="regular-text" value="%3$s" />
+        <input type="button" class="button srly_clear" value="&times" />
+        <p class="description">Here you can add Google web fonts to your website. Specify the simply font family name.</p>
         <p class="description">More information on a <a href="https://fonts.google.com/" target="_blank">Google Fonts API</a> page.</p>',
         $args['label_for'],
         $args['name'],
@@ -485,26 +430,6 @@ function srlyRenderSectionFontMetaColor( $args )
     );
 }
 
-function srlyRenderSectionFontContentWeight( $args )
-{
-    printf(
-        '<select name="%1$s[%2$s]" id="%3$s">',
-        $args['option_name'],
-        $args['name'],
-        $args['label_for']
-    );
-
-    foreach ( $args['options'] as $val => $title )
-        printf(
-            '<option value="%1$s" %2$s>%3$s</option>',
-            $val,
-            selected( $val, $args['value'], FALSE ),
-            $title
-        );
-
-    print '</select>';
-}
-
 function srlyRenderSectionFontContentSize( $args )
 {
     printf(
@@ -523,17 +448,6 @@ function srlyRenderSectionFontContentSize( $args )
         );
 
     print '</select>';
-}
-
-function srlyRenderSectionFontContentColor( $args )
-{
-    printf(
-        '<input type="text" id="%1$s" name="%4$s[%2$s]" class="iris_color" value="%3$s" />',
-        $args['label_for'],
-        $args['name'],
-        $args['value'],
-        $args['option_name']
-    );
 }
 
 
@@ -630,7 +544,7 @@ function srlyFooterScript(){
                 var self = $(this);
                 self
                     .parent()
-                    .children('input[type=url]')
+                    .children('input[type=url], input[type=text]')
                     .val('')
                     .change();
             }
